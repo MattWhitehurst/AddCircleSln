@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ApplicationPackage SchemaVersion="1.0"
+                    ProductType="Application"
+                    Name="AddCircle"
+                    AppVersion="1.0.0.0"
+                    Auto="CopelandEngineering"
+                    Description="Add a circle"
+                    ProductCode="{6DAE183C-E063-4C6F-883D-CDA8A29FBB35}"
+                    UpgradeCode="{CBBDCD04-6FA4-4779-A94C-B7A9E989F420}"
+                    FriendlyVersion="1.0.0.0"
+                    AutodeskProduct="AudoCAD"
+                    Icon="./Contents/Resource/icon.ico"
+                    HelpFile=".Contents/helpEN.htm"
+                    SupportedLocales="Enu"
+                    OnlineDocumentation=" ">
+    <CompanyDetails Name="CopelandEngineering"
+                    Phone="512.317.7011"
+                    Url="https://www.copeland-eng.com"
+                    Email="ragaston@copeland-eng.com">
+    </CompanyDetails>
+    <RuntimeRequirements OS="Win64"
+                         Platform="AutoCAD"
+                         SeriesMin="R24.0"
+                         SeriesMax="R24.5">
+    </RuntimeRequirements>
+    <Components Description="Main">
+        <RuntimeRequirements SupportPath="./Contents/24.2/x64/"
+                             OS="Win64"
+                             Platform="AutoCAD"
+                             SeriesMin="R24.0"
+                             SeriesMax="R24.5">
+        </RuntimeRequirements>
+        <ComponentEntry AppName="AddCircle"
+                        ModuleName="./Contents/24.2/x64/AddCircle.dll"
+                        LoadOnAppearance="True">
+        </ComponentEntry>
+    </Components>
+</ApplicationPackage>
