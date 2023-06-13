@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AcAp = Autodesk.AutoCAD.ApplicationServices.Application;
@@ -58,7 +59,45 @@ namespace AddCircle
                         }
                     }
                 }
+                
+            }
+            [CommandMethod("DrawLine")]
+            public void Test2()
+            {
+                var doc = AcAp.DocumentManager.MdiActiveDocument;
+                var db = doc.Database;
+                var ed = doc.Editor;
+                PromptPointOptions prmptPtOpt = new PromptPointOptions("Select start point");
+                PromptPointResult ptRes = ed.GetPoint(prmptPtOpt);
+                Point3d pt = Point3d.Origin;
+                if (ptRes.Status.Equals(PromptStatus.OK))
+                {
+                    pt = ptRes.Value;
+                }
+                prmptPtOpt.Message = "Select end point";
+                prmptPtOpt.BasePoint = pt;
+                prmptPtOpt.UseDashedLine = true;
+                ptRes = ed.GetPoint(prmptPtOpt);
+                Point3d endPt = Point3d.Origin;
+                if (ptRes.Status.Equals(PromptStatus.OK))
+                {
+                    endPt = ptRes.Value;
+                }
+
+                using (var tr = db.TransactionManager.StartTransaction())
+                {
+                    Line line = new Line(pt, endPt);
+                    var blockTable = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+                    var modelSpace
+                        = (BlockTableRecord)tr
+                        .GetObject(blockTable[BlockTableRecord.ModelSpace],
+                        OpenMode.ForWrite);
+                    var objectId = modelSpace.AppendEntity(line);
+                    tr.AddNewlyCreatedDBObject(line, true);
+                    tr.Commit();
+                }
             }
         }
+
     }
 }
